@@ -1,0 +1,17 @@
+.idea/
+*.pyc
+.env
+*.psd
+log/
+dumps/
+dev/
+*.log
+*.db
+*.json
+*.sqlite
+*/.pytest_cache/
+jsons/
+*.session
+__pycache__/
+db_data/
+*.lnk
