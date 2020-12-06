@@ -1,0 +1,1 @@
+pyside2-uic batch_window.ui -o batch_ui.py

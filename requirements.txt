@@ -1,0 +1,7 @@
+loguru
+pyside2
+psycopg2
+relatorio
+python-dotenv
+selenium
+webdriver_manager
