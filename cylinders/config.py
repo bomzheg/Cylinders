@@ -48,7 +48,7 @@ class Config(NamedTuple):
 icon = app_dir / "icons" / "icon.ico"
 
 SQLITE_PATH = Path(os.getenv("SQLITE_PATH", default=r'c:\Users\Public\Python\WeatherDiary.db'))
-DUMP_SQLITE_PATH = Path(os.getenv("DUMP_SQLITE_PATH", default=app_dir / "dumps"))
+DUMP_SQLITE_PATH = Path(os.getenv("DUMP_SQLITE_PATH", default=""))
 DB_IP = os.getenv("DB_IP", default='192.168.1.39')
 DB_PORT = int(os.getenv("DB_PORT", default=5432))
 DB_USER = os.getenv("DB_USER")
@@ -101,7 +101,7 @@ config = Config(
     db_config=db_config,
     name_cylinders=name_cylinders,
     log_file=PRINT_LOG,
-    dumps_path=app_dir / "dumps",
+    dumps_path=Path(os.getenv("DUMP_PATH", default=app_dir / "dumps")),
     rzn_login=rzn_login,
     headless_send=bool(int(os.getenv("HEADLESS_SELENIUM", default=1))),
     passport=RelatorioDocuments(TEMPLATE_PASSPORT, DESTINATION_PASSPORT),
