@@ -79,6 +79,11 @@ def get_batchs_info_from_sqlite(conn: Connection):
 
 
 def get_data_from_sqlite(sqlite_path: Path):
+    if not (sqlite_path.is_file() or sqlite_path.exists()):
+        raise ValueError(
+            "In $DUMP_SQLITE_PATH not path to file. "
+            "please make sure that its path referer to sqlite dump "
+            f'now it is "{sqlite_path}"')
     with get_sqlite_conn(sqlite_path) as conn:
         cylinders = get_cylinders_from_sqlite(conn)
         batchs = get_batchs_info_from_sqlite(conn)
