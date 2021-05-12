@@ -69,6 +69,7 @@ class BatchWindow(QMainWindow):
         self.ui.SeriaEdit.setText(self.sqlBatchModel.get_seria())
         self.ui.PartiaEdit.setDate(QDate().currentDate())
         self.ui.SufixEdit.setText(self.get_new_suffix())
+        self.ui.PassportNoEdit.setText(str(self.get_new_passport_no()))
 
         self.ui.docsGb.format_type = QButtonGroup(self)
         self.ui.docsGb.format_type.addButton(self.ui.oldFormat_rb)
@@ -114,6 +115,9 @@ class BatchWindow(QMainWindow):
             return 'а'
         else:
             return 'б'
+
+    def get_new_passport_no(self):
+        return self.sqlBatchModel.get_passport_no() + 1
 
     def batch_selection_changed(self):
         """
@@ -255,8 +259,9 @@ class BatchWindow(QMainWindow):
         seria = self.ui.SeriaEdit.text()
         partia = date(*self.ui.PartiaEdit.date().getDate())
         suffix = self.ui.SufixEdit.text()
+        passport_no = self.ui.PassportNoEdit.text()
         try:
-            self.sqlBatchModel.add_batch(seria, partia, suffix)
+            self.sqlBatchModel.add_batch(seria, partia, suffix, passport_no)
         except Exception as e:
             logger.exception(e)
             self.ui.statusbar.showMessage("Ошибка при вставке серии: " + str(e))

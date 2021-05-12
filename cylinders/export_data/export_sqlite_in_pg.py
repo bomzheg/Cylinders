@@ -15,7 +15,8 @@ SQL_BATCHS = """
         Серия varchar(10) NOT NULL,
         Партия date NOT NULL,
         Суфикс varchar(5) NULL,
-        Показать boolean NULL DEFAULT True
+        Показать boolean NULL DEFAULT True,
+        passport_no integer
     );
     """
 SQL_CYLINDERS = """
@@ -56,12 +57,12 @@ def get_batchs_info_from_sqlite(conn: Connection):
     batch_cur = conn.cursor()
     cylinder_cur = conn.cursor()
     batch_cur.execute(
-        f"SELECT id, Серия, Партия, Суфикс, Показать FROM 'Партии';"
+        f"SELECT id, Серия, Партия, Суфикс, Показать, passport_no FROM 'Партии';"
     )
     for id_, *row_batch in batch_cur:
         row_batch = list(row_batch)
         row_batch[0] = row_batch[0].strip()
-        row_batch[-1] = bool(row_batch[-1])
+        row_batch[-2] = bool(row_batch[-2])
         cylinder_cur.execute('''
                     SELECT  
                         "ID баллона", 
@@ -103,7 +104,9 @@ def insert_data_in_pg(db_config: DBConfig, data):
         for batch in data['batchs']:
             cur.execute(
                 """
-                    INSERT INTO "Партии" (Серия, Партия, Суфикс, Показать) VALUES (%s, %s, %s, %s) RETURNING id;
+                    INSERT INTO "Партии" 
+                    (Серия, Партия, Суфикс, Показать, passport_no) 
+                    VALUES (%s, %s, %s, %s, %s) RETURNING id;
                 """,
                 batch['batch']
             )

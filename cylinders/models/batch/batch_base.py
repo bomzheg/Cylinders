@@ -106,15 +106,16 @@ class BatchBaseModel(QAbstractTableModel):
             self.batch_count = self.get_batch_count()
             return True
 
-    def add_batch(self, seria: str, partia: date, suffix: str):
+    def add_batch(self, seria: str, partia: date, suffix: str, passport_no):
         """
         Метод добавляющий данные о новой серии
         :param seria: номер серии сырья
         :param partia: номер партии (только дата)
         :param suffix: суфикс номера партии
+        :param passport_no: номер паспорта
         :return: True в случае успеха, False в случае неудачи
         """
-        self.cur.execute(self.SQL_ADD_BATCH, (seria, partia, suffix))
+        self.cur.execute(self.SQL_ADD_BATCH, (seria, partia, suffix, passport_no))
         self.conn.commit()
         self.refresh()
 
@@ -146,6 +147,14 @@ class BatchBaseModel(QAbstractTableModel):
         :return: номер партии (только дата)
         """
         return self._array_data[index][3]
+
+    def get_passport_no(self, index: int = 0):
+        """
+        Возвращает номер паспорта по переданному индексу
+        :param index: номер записи в модели (нулевая запись - самая новая)
+        :return: номер паспорта
+        """
+        return self._array_data[index][5]
 
     def get_partia(self, index: int = 0):
         """

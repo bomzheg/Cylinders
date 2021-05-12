@@ -164,13 +164,44 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>110</y>
+         <y>150</y>
          <width>170</width>
          <height>23</height>
         </rect>
        </property>
        <property name="text">
         <string>Добавить партию</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="PassportNoLb">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>110</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>№ Паспорта:</string>
+       </property>
+       <property name="buddy">
+        <cstring></cstring>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="PassportNoEdit">
+       <property name="geometry">
+        <rect>
+         <x>99</x>
+         <y>110</y>
+         <width>81</width>
+         <height>20</height>
+        </rect>
        </property>
       </widget>
      </widget>

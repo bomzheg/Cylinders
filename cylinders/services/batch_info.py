@@ -31,13 +31,14 @@ def get_batch_info(cur: cursor, batch_id):
             "Серия",
             "Партия",
             "Суфикс",
-            to_char(Партии.Партия + interval '18 mons', 'DD.MM.YY') AS "Срок годности"
+            to_char(Партии.Партия + interval '18 mons', 'DD.MM.YY') AS "Срок годности",
+            passport_no AS "№ паспорта"
         FROM "Партии"
         WHERE "Партии"."id" = %s;
         """,
         (batch_id,)
     )
-    ser, date_, suffix, srok = cur.fetchone()
+    ser, date_, suffix, srok, passport_no = cur.fetchone()
     suffix = "" if suffix is None else suffix
     part = str(date_.strftime('%d%m%y')) + suffix
     date_ = str(date_.strftime('%d.%m.%Y'))
@@ -46,6 +47,7 @@ def get_batch_info(cur: cursor, batch_id):
         'seria': ser,
         'partia': part,
         'srok': srok,
+        'passport_no': passport_no,
     }
     return rez_batch
 

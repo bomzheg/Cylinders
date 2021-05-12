@@ -7,7 +7,9 @@ from PySide2.QtWidgets import QApplication
 from loguru import logger
 
 from cylinders.config import config
+from cylinders.services.db_connection import connect_pg
 from cylinders.windows import BatchWindow
+from migrations.add_column_passport_no import upgrade
 
 
 def logger_setup(log_file: Path):
@@ -36,6 +38,8 @@ def show_window(current_config):
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("bomzheg.batchs")
 
     current_config.dumps_path.mkdir(parents=True, exist_ok=True)
+
+    upgrade(connect_pg(current_config.db_config))
 
     app = QApplication([])
     app.setWindowIcon(QIcon(str(config.icon)))

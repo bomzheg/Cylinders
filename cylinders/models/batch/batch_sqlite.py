@@ -12,6 +12,7 @@ class BatchSqliteModel(BatchBaseModel):
                 AS "Партия",
             strftime('%d.%m.%Y', DATE(Партия)) AS "Дата изготовления",
             strftime('%d.%m.%Y', DATE(Партия, '+18 months')) AS " Срок годности",
+            passport_no as "№ Паспорта",
             date(Партия) || ifnull(Суфикс, "") AS "sort_date"
     
         FROM "Партии"
@@ -21,8 +22,8 @@ class BatchSqliteModel(BatchBaseModel):
     """
     SQL_ADD_BATCH = """
         INSERT INTO "Партии"
-        ("Серия", "Партия", "Суфикс", "Показать")
-        VALUES (?, ?, ?, 1);
+        ("Серия", "Партия", "Суфикс", "Показать", passport_no)
+        VALUES (?, ?, ?, 1, ?);
     """
     SQL_UPDATE_SERIA = """
         UPDATE "Партии" 

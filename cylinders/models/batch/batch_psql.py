@@ -9,7 +9,9 @@ class BatchPostgresModel(BatchBaseModel):
             to_char(Партии.Партия, 'DDMMYY') || COALESCE(Суфикс, '') AS "Партия",
             to_char(Партии.Партия, 'DD.MM.YY') AS "Дата изготовления",
             to_char(Партии.Партия + interval '18 mons', 'DD.MM.YY') AS "Срок годности",
+            Партии.passport_no as "№ Паспорта" ,
             Партии.Партия || COALESCE(Суфикс, '') AS "sort_date"
+
         FROM "Партии"
         ORDER BY "sort_date" DESC
         LIMIT %s 
@@ -17,8 +19,8 @@ class BatchPostgresModel(BatchBaseModel):
     """
     SQL_ADD_BATCH = """
         INSERT INTO "Партии"
-        ("Серия", "Партия", "Суфикс", "Показать")
-        VALUES (%s, %s, %s, True);
+        ("Серия", "Партия", "Суфикс", "Показать", passport_no)
+        VALUES (%s, %s, %s, True, %s);
     """
     SQL_UPDATE_SERIA = """
         UPDATE "Партии" 
