@@ -115,6 +115,11 @@ def set_cylinders_count(cur: cursor, cylinders: dict, batch_id: int):
         if count is not None and count != 0:
             cylinders[id_]['count'] = f"{count} {unit}."
             cylinders[id_]['count_'] = count
+        else:
+            try:
+                del cylinders[id_]
+            except KeyError:
+                pass
 
 
 def convert_cylinders_to_tree(cylinders: dict) -> dict:
