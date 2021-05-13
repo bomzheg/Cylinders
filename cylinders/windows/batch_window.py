@@ -117,7 +117,7 @@ class BatchWindow(QMainWindow):
             return 'б'
 
     def get_new_passport_no(self):
-        return self.sqlBatchModel.get_passport_no() + 1
+        return self.sqlBatchModel.get_passport_no() or 0 + 1
 
     def batch_selection_changed(self):
         """
