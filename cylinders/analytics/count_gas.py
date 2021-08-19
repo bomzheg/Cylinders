@@ -97,7 +97,7 @@ def get_count_gas(month: int, year: int) -> typing.List[Tuple[date, float]]:
 
 
 def get_summary_month(month: int, year: int):
-    print(f"{month}.{year}", sum([count for _, count in get_count_gas(10, 2020) if count is not None]))
+    print(f"{month}.{year}", sum([count for _, count in get_count_gas(month, year) if count is not None]))
 
 
 def print_month_gaz(data: typing.List[Tuple[date, float]]):
@@ -106,4 +106,4 @@ def print_month_gaz(data: typing.List[Tuple[date, float]]):
 
 if __name__ == "__main__":
     print_month_gaz(get_count_gas(5,2021))
-    get_summary_month(10, 2020)
+    get_summary_month(5, 2021)
