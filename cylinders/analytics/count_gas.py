@@ -1,6 +1,8 @@
 import typing
 import calendar
 from datetime import date
+from decimal import Decimal
+from typing import Tuple
 
 from psycopg2.extensions import cursor, connection
 
@@ -84,7 +86,7 @@ def get_100_id(conn: connection):
         return cur.fetchall()
 
 
-def get_count_gas(month: int, year: int):
+def get_count_gas(month: int, year: int) -> typing.List[Tuple[date, float]]:
     with connect_pg(config.db_config) as conn, conn.cursor() as cur:
         result = []
         for day in range(calendar.monthrange(year, month)[1]):
@@ -94,6 +96,14 @@ def get_count_gas(month: int, year: int):
     return result
 
 
+def get_summary_month(month: int, year: int):
+    print(f"{month}.{year}", sum([count for _, count in get_count_gas(10, 2020) if count is not None]))
+
+
+def print_month_gaz(data: typing.List[Tuple[date, float]]):
+    print("\n".join(map(lambda t: f"{t[0].isoformat()} {t[1]}" , data)))
+
+
 if __name__ == "__main__":
-    print("10.12", sum([count for _, count in get_count_gas(10, 2020) if count is not None]))
-    print("11.12", sum([count for _, count in get_count_gas(11, 2020) if count is not None]))
+    print_month_gaz(get_count_gas(5,2021))
+    get_summary_month(10, 2020)
