@@ -16,7 +16,8 @@ class CylindersPostgresModel(CylindersBaseModel):
         FROM "СоотношениеОбъёмов"
         LEFT OUTER JOIN "Баллоны в партиях"
             ON "СоотношениеОбъёмов"."id" = "Баллоны в партиях"."ID баллона"
-            AND "Баллоны в партиях"."ID партии" = %s ;
+            AND "Баллоны в партиях"."ID партии" = %s 
+        ORDER BY "СоотношениеОбъёмов"."id"
     """
     SQL_CYLINDERS_UPDATE = """
         INSERT INTO "Баллоны в партиях"
