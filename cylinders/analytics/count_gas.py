@@ -100,9 +100,9 @@ def get_summary_month(month: int, year: int):
 
 
 def print_month_gaz(data: typing.List[Tuple[date, float]]):
-    print("\n".join(map(lambda t: f"{t[0].isoformat()} {t[1]}" , data)))
+    print("\n".join(map(lambda t: f"{t[0].isoformat()} {t[1]}", data)))
 
 
 if __name__ == "__main__":
-    print_month_gaz(get_count_gas(5,2021))
+    print_month_gaz(get_count_gas(5, 2021))
     get_summary_month(5, 2021)

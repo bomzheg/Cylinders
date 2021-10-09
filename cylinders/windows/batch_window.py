@@ -131,7 +131,7 @@ class BatchWindow(QMainWindow):
         ensure_msg_box = QMessageBox(
             text=f"Вы уверены, что хотите удалить серию с id = {batch_id}",
             parent=self.ui.BatchView,
-        )
+        ) # noqa
         buttons = (
             ("Нет, не удалять", QMessageBox.ButtonRole.RejectRole),
             ("Да, удалить", QMessageBox.ButtonRole.YesRole),
@@ -148,7 +148,7 @@ class BatchWindow(QMainWindow):
                 QMessageBox(
                     text="Успешно удалено",
                     parent=self.ui.centralwidget,
-                ).exec_()
+                ).exec_()  # noqa
 
     def check_password(self):
         password_dialog = QInputDialog(self.ui.centralwidget)
@@ -162,7 +162,7 @@ class BatchWindow(QMainWindow):
             QMessageBox(
                 text="Неверный пароль. Об инциденте будет сообщено.",
                 parent=self.ui.centralwidget,
-            ).exec_()
+            ).exec_()  # noqa
             logger.critical("got wrong password")
         return ok and correct_password
 
