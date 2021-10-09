@@ -1,6 +1,7 @@
 """
 Модуль управляющий окном с сериями
 """
+import hashlib
 import sqlite3
 from datetime import date, datetime
 import threading
@@ -20,6 +21,8 @@ from cylinders.services.rzn_sender import RZNLiquid
 from cylinders.services import batch_info
 from cylinders.services.db_connection import connect_db
 from cylinders.export_data import backup_pg
+
+CORRECT_PASSWORD_HASH = "ad1176b4f0b975322fb61f5b3fa686bc49a3127d7fb8fe71f7c3b4b9"
 
 
 class BatchWindow(QMainWindow):
@@ -139,8 +142,29 @@ class BatchWindow(QMainWindow):
         ensure_msg_box.setDefaultButton(ensure_msg_box.buttons()[1])
         user_choice = ensure_msg_box.exec_()
         if buttons[user_choice][1] == QMessageBox.ButtonRole.YesRole:
-            self.sqlBatchModel.delete_batch_by_id(batch_id)
-            logger.warning("deleted batch with id = {}", batch_id)
+            if self.check_password():
+                self.sqlBatchModel.delete_batch_by_id(batch_id)
+                logger.warning("deleted batch with id = {}", batch_id)
+                QMessageBox(
+                    text="Успешно удалено",
+                    parent=self.ui.centralwidget,
+                ).exec_()
+
+    def check_password(self):
+        password_dialog = QInputDialog(self.ui.centralwidget)
+        password_dialog.setLabelText("Введите пароль:")
+        password_dialog.setTextEchoMode(QLineEdit.Password)
+        ok = password_dialog.exec_()
+        text = password_dialog.textValue()
+        password_hash = hashlib.sha224(text.encode("utf-8")).hexdigest()
+        correct_password = password_hash == CORRECT_PASSWORD_HASH
+        if ok and not correct_password:
+            QMessageBox(
+                text="Неверный пароль. Об инциденте будет сообщено.",
+                parent=self.ui.centralwidget,
+            ).exec_()
+            logger.critical("got wrong password")
+        return ok and correct_password
 
     def get_batch_id_by_point(self, menu_pos: QPoint) -> int:
         model_index: QModelIndex = self.ui.BatchView.indexAt(menu_pos)
