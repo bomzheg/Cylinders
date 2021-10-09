@@ -8,6 +8,7 @@ from pathlib import Path
 from time import sleep
 
 from PySide2.QtCore import *
+from PySide2.QtGui import QCursor
 from PySide2.QtWidgets import *
 from loguru import logger
 
@@ -58,6 +59,7 @@ class BatchWindow(QMainWindow):
             raise ValueError("Incorrect DB_TYPE. must be 'postgres' or 'sqlite', "
                              f"got {self.db_config.db_type}")
         self.show_version_db()
+        self.ui.CylindersView.setModel(self.CylinderModel)
         self.qsortBatch = QSortFilterProxyModel(self)
         self.qsortBatch.setSourceModel(self.sqlBatchModel)
         self.ui.BatchView.setModel(self.qsortBatch)
@@ -80,7 +82,6 @@ class BatchWindow(QMainWindow):
         }
 
         last_batch_id = self.sqlBatchModel.get_batch_id()
-        self.ui.CylindersView.setModel(self.CylinderModel)
         self.show_cylinders_info(last_batch_id)
         # # self.batch_selection_changed()
 
@@ -91,11 +92,46 @@ class BatchWindow(QMainWindow):
         self.ui.CreateTitulnButton.clicked.connect(self.create_title_page)
         self.ui.CreateManyEtiketkaButton.clicked.connect(self.create_many_sticker)
         self.ui.submit_button.clicked.connect(self.send_liquid_batch)
+        self.batch_context_menu = self.create_context_menu()
+        self.batch_context_menu_delete_action = self.create_delete_action()
+        self.last_context_menu_pos: QPoint = QPoint()
         logger.info("первичная настрока окна завершена")
 
         self.back_up_tread = threading.Thread(target=self.back_up, kwargs=dict(dumps_path=dumps_path))
         logger.info("запуск бекапа..")
         self.back_up_tread.start()
+
+    def create_context_menu(self) -> QMenu:
+        self.ui.BatchView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.ui.BatchView.customContextMenuRequested.connect(self.show_context_menu)
+        context_menu = QMenu(self)
+        return context_menu
+
+    def create_delete_action(self) -> QAction:
+        delete = self.batch_context_menu.addAction('Удалить серию')  # noqa arg_2 not filled
+        delete.triggered.connect(self.delete_context_menu_handler)
+        return delete
+
+    def show_context_menu(self, point: QPoint):
+        self.last_context_menu_pos = point
+        batch_id = self.get_batch_id_by_point(point)
+        serial = self.sqlBatchModel.get_partia_by_id(batch_id)
+        self.batch_context_menu_delete_action.setText(
+            f"Удалить серию {serial} с id {batch_id}"
+        )
+        self.batch_context_menu.move(QCursor.pos())
+        self.batch_context_menu.show()
+
+    def delete_context_menu_handler(self):
+        batch_id = self.get_batch_id_by_point(self.last_context_menu_pos)
+        logger.warning("deleting batch with id = {}", batch_id)
+        self.sqlBatchModel.delete_batch_by_id(batch_id)
+        logger.warning("deleted batch with id = {}", batch_id)
+
+    def get_batch_id_by_point(self, menu_pos: QPoint) -> int:
+        model_index: QModelIndex = self.ui.BatchView.indexAt(menu_pos)
+        index = self.sqlBatchModel.get_batch_id(model_index.row())
+        return index
 
     def show_version_db(self):
         if self.db_config.db_type == "sqlite":

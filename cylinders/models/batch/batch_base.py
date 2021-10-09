@@ -10,6 +10,7 @@ class BatchBaseModel(QAbstractTableModel):
     SQL_BATCH_COUNT = ""
     SQL_ADD_BATCH = ""
     SQL_UPDATE_SERIA = ""
+    SQL_DELETE_BATCH_BY_ID = ""
 
     def __init__(self, cur, conn, parent=None):
         super(BatchBaseModel, self).__init__(parent)
@@ -140,6 +141,15 @@ class BatchBaseModel(QAbstractTableModel):
         """
         return self._array_data[index][1]
 
+    def get_partia_by_id(self, batch_id: int) -> str:
+        return self._array_data[self.get_index_by_id(batch_id)][2]
+
+    def get_index_by_id(self, batch_id: int) -> int:
+        return list(map(
+            lambda x: x[0],
+            self._array_data
+        )).index(batch_id)
+
     def get_partia_date(self, index: int = 0):
         """
         Возвращает номер партии (только дата) по переданному индексу
@@ -178,3 +188,8 @@ class BatchBaseModel(QAbstractTableModel):
     def get_batch_count(self):
         self.cur.execute(self.SQL_BATCH_COUNT)
         return self.cur.fetchone()[0]
+
+    def delete_batch_by_id(self, id_: int):
+        self.cur.execute(self.SQL_DELETE_BATCH_BY_ID, (id_, id_))
+        self.conn.commit()
+        self.refresh()

@@ -1,7 +1,6 @@
 import typing
 import calendar
 from datetime import date
-from decimal import Decimal
 from typing import Tuple
 
 from psycopg2.extensions import cursor, connection
