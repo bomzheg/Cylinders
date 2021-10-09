@@ -1,4 +1,4 @@
-from psycopg2._psycopg import connection
+from psycopg2.extensions import connection
 from loguru import logger
 
 from migrations.common import get_query_check_column

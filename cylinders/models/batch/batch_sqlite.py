@@ -34,6 +34,12 @@ class BatchSqliteModel(BatchBaseModel):
         SELECT count(id)
         FROM "Партии"
     """
+    SQL_DELETE_BATCH_BY_ID = """
+        DELETE
+        FROM "Баллоны в партиях"
+        WHERE "Баллоны в партиях"."ID партии" = ?;
+        DELETE FROM "Партии" WHERE "id" = ?
+    """
 
     def get_headers(self):
         return [column[0] for column in self.cur.description]

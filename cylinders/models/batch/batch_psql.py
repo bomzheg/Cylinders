@@ -31,6 +31,12 @@ class BatchPostgresModel(BatchBaseModel):
         SELECT count(id)
         FROM "Партии"
     """
+    SQL_DELETE_BATCH_BY_ID = """
+        DELETE
+        FROM "Баллоны в партиях"
+        WHERE "Баллоны в партиях"."ID партии" = %s;
+        DELETE FROM "Партии" WHERE "id" = %s
+    """
 
     def get_headers(self):
         return [column.name for column in self.cur.description]
