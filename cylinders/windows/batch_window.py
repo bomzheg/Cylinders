@@ -125,8 +125,22 @@ class BatchWindow(QMainWindow):
     def delete_context_menu_handler(self):
         batch_id = self.get_batch_id_by_point(self.last_context_menu_pos)
         logger.warning("deleting batch with id = {}", batch_id)
-        self.sqlBatchModel.delete_batch_by_id(batch_id)
-        logger.warning("deleted batch with id = {}", batch_id)
+        ensure_msg_box = QMessageBox(
+            text=f"Вы уверены, что хотите удалить серию с id = {batch_id}",
+            parent=self.ui.BatchView,
+        )
+        buttons = (
+            ("Нет, не удалять", QMessageBox.ButtonRole.RejectRole),
+            ("Да, удалить", QMessageBox.ButtonRole.YesRole),
+            ("Нет, вы с ума сошли?!", QMessageBox.ButtonRole.NoRole),
+        )
+        for text, role in buttons:
+            ensure_msg_box.addButton(text, role)
+        ensure_msg_box.setDefaultButton(ensure_msg_box.buttons()[1])
+        user_choice = ensure_msg_box.exec_()
+        if buttons[user_choice][1] == QMessageBox.ButtonRole.YesRole:
+            self.sqlBatchModel.delete_batch_by_id(batch_id)
+            logger.warning("deleted batch with id = {}", batch_id)
 
     def get_batch_id_by_point(self, menu_pos: QPoint) -> int:
         model_index: QModelIndex = self.ui.BatchView.indexAt(menu_pos)
