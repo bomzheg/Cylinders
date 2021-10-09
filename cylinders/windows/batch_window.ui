@@ -375,7 +375,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>16</string>
+       <string>8</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
