@@ -79,7 +79,7 @@ rzn_login = RZNLogin(
     password=PASSWORD
 )
 
-TEMPLATE_DIR = Path(os.getenv("TEMPLATE_DIR", default=r'c:\Users\Public\Python'))
+TEMPLATE_DIR = Path(os.getenv("TEMPLATE_DIR", default=app_dir / "templates"))
 DESTINATION_DIR = Path(os.getenv("DESTINATION_DIR", default=r'c:\Users\Public\Подготовленные документы'))
 
 TEMPLATE_PASSPORT = TEMPLATE_DIR / 'Шаблон паспорта КГМ.odt'

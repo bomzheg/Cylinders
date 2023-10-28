@@ -47,7 +47,7 @@ class BatchBaseModel(QAbstractTableModel):
         self._array_data.extend(self.cur.fetchall())
         self.endResetModel()
 
-        # noinspection PyPep8Naming
+    # noinspection PyPep8Naming
     def rowCount(self, parent=None, *args, **kwargs):
         return len(self._array_data)
 
