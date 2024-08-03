@@ -1,6 +1,6 @@
 loguru
 pyside2
-psycopg2
+psycopg2-binary
 relatorio
 python-dotenv
 selenium
