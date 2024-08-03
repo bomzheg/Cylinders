@@ -9,11 +9,10 @@ class BatchPostgresModel(BatchBaseModel):
             to_char(Партии.Партия, 'DDMMYY') || COALESCE(Суфикс, '') AS "Партия",
             to_char(Партии.Партия, 'DD.MM.YY') AS "Дата изготовления",
             to_char(Партии.Партия + interval '18 mons', 'DD.MM.YY') AS "Срок годности",
-            Партии.passport_no as "№ Паспорта" ,
-            Партии.Партия || COALESCE(Суфикс, '') AS "sort_date"
+            Партии.passport_no as "№ Паспорта"
 
         FROM "Партии"
-        ORDER BY "sort_date" DESC
+        ORDER BY Партии.Партия || COALESCE(Суфикс, '') DESC
         LIMIT %s 
         OFFSET %s;
     """
