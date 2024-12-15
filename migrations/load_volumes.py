@@ -41,11 +41,47 @@ def upgrade(load_volumes: str, con):
                             "Колличество в связке" = %(count)s,
                             "Объём газа в одном баллоне, м3" = %(volume_pack)s
                         WHERE id = %(id)s
-                    """, {
-                        "id", requested_id,
+                        """,
+                        {
+                            "id": requested_id,
+                            "volume_cylinder": vol[1],
+                            "pressure": vol[2],
+                            "volume_gase": vol[3],
+                            "temperature": vol[4],
+                            "count": vol[5],
+                            "volume_pack": vol[6],
                     })
                 else:
                     logger.info(f"not found id {requested_id}")
+                    cur.execute("""
+                        INSERT INTO public."СоотношениеОбъёмов" (
+                            "id",
+                            "Объём баллона, л",
+                            "Давление, ат",
+                            "Объём газа, м3",
+                            "Температура, °С",
+                            "Колличество в связке",
+                            "Объём газа в одном баллоне, м3"
+                        )
+                        VALUES (
+                            %(id)s,
+                            %(volume_cylinder)s,
+                            %(pressure)s,
+                            %(volume_gase)s,
+                            %(temperature)s,
+                            %(count)s,
+                            %(volume_pack)s
+                        )
+                        """,
+                        {
+                            "id": requested_id,
+                            "volume_cylinder": vol[1],
+                            "pressure": vol[2],
+                            "volume_gase": vol[3],
+                            "temperature": vol[4],
+                            "count": vol[5],
+                            "volume_pack": vol[6],
+                        })
             assert len(ids) == len(set(ids))
             cur.execute("""
                 SELECT id from public."СоотношениеОбъёмов"
@@ -53,4 +89,4 @@ def upgrade(load_volumes: str, con):
             """, {"ids": ids})
             founded = cur.fetchall()
             logger.info(f"found ids that should be deleted {founded}")
-            # con.commit()
+            con.commit()
