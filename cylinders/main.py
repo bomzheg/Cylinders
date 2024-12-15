@@ -11,7 +11,7 @@ from cylinders.config import config, Config
 from cylinders.services.db_connection import connect_pg
 from cylinders.windows import BatchWindow
 from migrations import add_column_passport_no, load_volumes, \
-    add_column_volumes_show
+    add_column_volumes_show, add_column_volumes_order
 
 
 def logger_setup(log_file: Path):
@@ -45,6 +45,7 @@ def show_window(current_config: Config):
     with connect_pg(current_config.db_config) as connection:
         add_column_passport_no.upgrade(connection)
         add_column_volumes_show.upgrade(connection)
+        add_column_volumes_order.upgrade(connection)
         if current_config.load_volumes:
             load_volumes.upgrade(current_config.load_volumes, connection)
 
