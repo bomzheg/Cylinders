@@ -15,3 +15,5 @@ jsons/
 __pycache__/
 db_data/
 *.lnk
+
+*.egg-info/
