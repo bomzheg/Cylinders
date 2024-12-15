@@ -7,10 +7,10 @@ from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QApplication
 from loguru import logger
 
-from cylinders.config import config
+from cylinders.config import config, Config
 from cylinders.services.db_connection import connect_pg
 from cylinders.windows import BatchWindow
-from migrations.add_column_passport_no import upgrade
+from migrations import add_column_passport_no, load_volumes
 
 
 def logger_setup(log_file: Path):
@@ -34,14 +34,17 @@ def main():
         exit()
 
 
-def show_window(current_config):
+def show_window(current_config: Config):
     if os.name == 'nt':
         # fix app icon in task bar
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("bomzheg.batchs")
 
     current_config.dumps_path.mkdir(parents=True, exist_ok=True)
 
-    upgrade(connect_pg(current_config.db_config))
+    add_column_passport_no.upgrade(connect_pg(current_config.db_config))
+    if current_config.load_volumes:
+        load_volumes.upgrade(current_config.load_volumes, connect_pg(current_config.db_config))
+
 
     app = QApplication([])
     app.setWindowIcon(QIcon(str(config.icon)))

@@ -43,6 +43,7 @@ class Config(NamedTuple):
     sticker: RelatorioDocuments
     many_stickers: RelatorioDocuments
     title_page: RelatorioDocuments
+    load_volumes: typing.Optional[str]
 
 
 icon = app_dir / "icons" / "icon.ico"
@@ -94,6 +95,8 @@ DESTINATION_TITLE_PAGE = DESTINATION_DIR / 'Титульный.odt'
 TEMPLATE_MANY_STICKER = TEMPLATE_DIR / 'Шаблон Этикеток на всю серию.odt'
 DESTINATION_MANY_STICKER = DESTINATION_DIR / 'Этикетки на всю серию.odt'
 
+LOAD_VOLUMES = os.getenv("LOAD_VOLUMES", None)
+
 
 config = Config(
     app_dir=app_dir,
@@ -107,5 +110,6 @@ config = Config(
     passport=RelatorioDocuments(TEMPLATE_PASSPORT, DESTINATION_PASSPORT),
     sticker=RelatorioDocuments(TEMPLATE_STICKER, DESTINATION_STICKER),
     many_stickers=RelatorioDocuments(TEMPLATE_MANY_STICKER, DESTINATION_MANY_STICKER),
-    title_page=RelatorioDocuments(TEMPLATE_TITLE_PAGE, DESTINATION_TITLE_PAGE)
+    title_page=RelatorioDocuments(TEMPLATE_TITLE_PAGE, DESTINATION_TITLE_PAGE),
+    load_volumes=LOAD_VOLUMES,
 )
