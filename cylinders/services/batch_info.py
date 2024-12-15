@@ -159,16 +159,6 @@ def get_all_info_about_batch(cur: cursor, batch_id: int) -> dict:
     return rez_batch
 
 
-def patch_info_batch_old_format(info: dict) -> dict:
-    """
-    :param info: словарь со всей информацией о серии. обязательно должен иметь ключи 'partia' и 'seria'
-    :return: словарь в котором в партии содержиится информация и о серии (старый формат, до 17.01.20)
-    """
-    rez = info
-    rez['partia'] = rez['seria'] + " партия: " + rez['partia']
-    return rez
-
-
 def write_data_to_odt(*, data: dict, template_odt: Union[str, Path], destination_odt: Union[str, Path]):
     """
     запись данных из переданного словаря в ODT файл по заданному шаблону
@@ -177,21 +167,19 @@ def write_data_to_odt(*, data: dict, template_odt: Union[str, Path], destination
     open(destination_odt, 'wb').write(basic.generate(o=data).render().getvalue())
 
 
-def generate_data_batch_list(batch_ids: list, old_passport=False):
+def generate_data_batch_list(batch_ids: list):
     # TODO конфиг на подключение или даже сразу коннект нужно получать из вызывающей функции а не хардкодить тут
     with connect_pg(config.db_config) as conn, conn.cursor() as cur:
         data = {'batchs': []}
         for batch_id in batch_ids:
             temp_data = get_all_info_about_batch(cur=cur, batch_id=batch_id)
-            if old_passport:
-                temp_data = patch_info_batch_old_format(temp_data)
             data['batchs'].append(temp_data)
 
     return data
 
 
-def generate_passport(batch_ids: list, old_passport=False):
-    data = generate_data_batch_list(batch_ids=batch_ids, old_passport=old_passport)
+def generate_passport(batch_ids: list):
+    data = generate_data_batch_list(batch_ids=batch_ids)
 
     write_data_to_odt(
         data=data,
@@ -200,8 +188,8 @@ def generate_passport(batch_ids: list, old_passport=False):
     )
 
 
-def generate_sticker(batch_ids: list, old_passport=False):
-    data = generate_data_batch_list(batch_ids=batch_ids, old_passport=old_passport)
+def generate_sticker(batch_ids: list):
+    data = generate_data_batch_list(batch_ids=batch_ids)
 
     write_data_to_odt(
         data=data,
@@ -210,8 +198,8 @@ def generate_sticker(batch_ids: list, old_passport=False):
     )
 
 
-def generate_title_page(batch_ids: list, old_passport=False):
-    data = generate_data_batch_list(batch_ids=batch_ids, old_passport=old_passport)
+def generate_title_page(batch_ids: list):
+    data = generate_data_batch_list(batch_ids=batch_ids)
 
     write_data_to_odt(
         data=data,
@@ -220,8 +208,8 @@ def generate_title_page(batch_ids: list, old_passport=False):
     )
 
 
-def generate_many_sticker(batch_ids: list, old_passport=False):
-    data = generate_data_batch_list(batch_ids=batch_ids, old_passport=old_passport)
+def generate_many_sticker(batch_ids: list):
+    data = generate_data_batch_list(batch_ids=batch_ids)
 
     write_data_to_odt(
         data=data,

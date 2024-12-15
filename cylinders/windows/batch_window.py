@@ -76,14 +76,6 @@ class BatchWindow(QMainWindow):
         self.ui.SufixEdit.setText(self.get_new_suffix())
         self.ui.PassportNoEdit.setText(str(self.get_new_passport_no()))
 
-        self.ui.docsGb.format_type = QButtonGroup(self)
-        self.ui.docsGb.format_type.addButton(self.ui.oldFormat_rb)
-        self.ui.docsGb.format_type.addButton(self.ui.newFormat_rb)
-        self.data_by_button = {
-            self.ui.newFormat_rb: False,
-            self.ui.oldFormat_rb: True
-        }
-
         last_batch_id = self.sqlBatchModel.get_batch_id()
         self.show_cylinders_info(last_batch_id)
         # # self.batch_selection_changed()
@@ -267,7 +259,6 @@ class BatchWindow(QMainWindow):
         try:
             batch_info.generate_passport(
                 batch_ids=batch_ids,
-                old_passport=self.data_by_button[self.ui.docsGb.format_type.checkedButton()]
             )
         except Exception as e:
             self.ui.statusbar.showMessage("Ошибка при подготовке документа: " + str(e))
@@ -286,7 +277,6 @@ class BatchWindow(QMainWindow):
         try:
             batch_info.generate_sticker(
                 batch_ids=batch_ids,
-                old_passport=self.data_by_button[self.ui.docsGb.format_type.checkedButton()]
             )
         except Exception as e:
             self.ui.statusbar.showMessage("Ошибка при подготовке документа: " + str(e))
@@ -301,7 +291,6 @@ class BatchWindow(QMainWindow):
         try:
             batch_info.generate_title_page(
                 batch_ids=batch_ids,
-                old_passport=self.data_by_button[self.ui.docsGb.format_type.checkedButton()]
             )
         except Exception as e:
             self.ui.statusbar.showMessage("Ошибка при подготовке документа: " + str(e))
@@ -316,7 +305,6 @@ class BatchWindow(QMainWindow):
         try:
             batch_info.generate_many_sticker(
                 batch_ids=batch_ids,
-                old_passport=self.data_by_button[self.ui.docsGb.format_type.checkedButton()]
             )
         except Exception as e:
             self.ui.statusbar.showMessage("Ошибка при подготовке документа: " + str(e))
