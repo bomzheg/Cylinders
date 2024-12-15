@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from loguru import logger
+
 
 def upgrade(load_volumes: str, con):
 
@@ -28,14 +30,27 @@ def upgrade(load_volumes: str, con):
 
                 fetched_id = cur.fetchone()
                 if fetched_id and fetched_id[0] == requested_id:
-                    print(f"found id {requested_id}")
+                    logger.info(f"found id {requested_id}")
+                    cur.execute("""
+                        UPDATE public."СоотношениеОбъёмов"
+                        SET 
+                            "Объём баллона, л" = %(volume_cylinder)s,
+                            "Давление, ат" = %(pressure)s,
+                            "Объём газа, м3" = %(volume_gase)s,
+                            "Температура, °С" = %(temperature)s,
+                            "Колличество в связке" = %(count)s,
+                            "Объём газа в одном баллоне, м3" = %(volume_pack)s
+                        WHERE id = %(id)s
+                    """, {
+                        "id", requested_id,
+                    })
                 else:
-                    print(f"not found id {requested_id}")
+                    logger.info(f"not found id {requested_id}")
             assert len(ids) == len(set(ids))
             cur.execute("""
                 SELECT id from public."СоотношениеОбъёмов"
                 WHERE NOT (id = ANY(%(ids)s))
             """, {"ids": ids})
             founded = cur.fetchall()
-            print(f"found ids that should be deleted {founded}")
+            logger.info(f"found ids that should be deleted {founded}")
             # con.commit()
