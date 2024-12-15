@@ -3,16 +3,13 @@
 ################################################################################
 ## Form generated from reading UI file 'batch_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.0
+## Created by: Qt User Interface Compiler version 5.15.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
-    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
-    QPixmap, QRadialGradient)
+from PySide2.QtCore import *
+from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
@@ -72,26 +69,19 @@ class Ui_BatchWindow(object):
         self.PassportNoEdit.setGeometry(QRect(99, 110, 81, 20))
         self.docsGb = QGroupBox(self.tab_gas)
         self.docsGb.setObjectName(u"docsGb")
-        self.docsGb.setGeometry(QRect(540, 310, 201, 241))
+        self.docsGb.setGeometry(QRect(540, 310, 201, 141))
         self.CreatePassportButton = QPushButton(self.docsGb)
         self.CreatePassportButton.setObjectName(u"CreatePassportButton")
-        self.CreatePassportButton.setGeometry(QRect(10, 60, 161, 23))
-        self.oldFormat_rb = QRadioButton(self.docsGb)
-        self.oldFormat_rb.setObjectName(u"oldFormat_rb")
-        self.oldFormat_rb.setGeometry(QRect(10, 20, 141, 17))
-        self.newFormat_rb = QRadioButton(self.docsGb)
-        self.newFormat_rb.setObjectName(u"newFormat_rb")
-        self.newFormat_rb.setGeometry(QRect(10, 40, 141, 17))
-        self.newFormat_rb.setChecked(True)
+        self.CreatePassportButton.setGeometry(QRect(10, 20, 161, 23))
         self.CreateEtiketkaButton = QPushButton(self.docsGb)
         self.CreateEtiketkaButton.setObjectName(u"CreateEtiketkaButton")
-        self.CreateEtiketkaButton.setGeometry(QRect(10, 120, 161, 23))
+        self.CreateEtiketkaButton.setGeometry(QRect(10, 80, 161, 23))
         self.CreateTitulnButton = QPushButton(self.docsGb)
         self.CreateTitulnButton.setObjectName(u"CreateTitulnButton")
-        self.CreateTitulnButton.setGeometry(QRect(10, 90, 161, 23))
+        self.CreateTitulnButton.setGeometry(QRect(10, 50, 161, 23))
         self.CreateManyEtiketkaButton = QPushButton(self.docsGb)
         self.CreateManyEtiketkaButton.setObjectName(u"CreateManyEtiketkaButton")
-        self.CreateManyEtiketkaButton.setGeometry(QRect(10, 150, 161, 23))
+        self.CreateManyEtiketkaButton.setGeometry(QRect(10, 110, 161, 23))
         self.BatchView = QTableView(self.tab_gas)
         self.BatchView.setObjectName(u"BatchView")
         self.BatchView.setGeometry(QRect(0, 0, 531, 275))
@@ -152,8 +142,6 @@ class Ui_BatchWindow(object):
         self.PassportNoLb.setText(QCoreApplication.translate("BatchWindow", u"\u2116 \u041f\u0430\u0441\u043f\u043e\u0440\u0442\u0430:", None))
         self.docsGb.setTitle(QCoreApplication.translate("BatchWindow", u"\u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u043a\u0430 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u043f\u043e \u043f\u0430\u0440\u0442\u0438\u0438", None))
         self.CreatePassportButton.setText(QCoreApplication.translate("BatchWindow", u"\u0421\u0434\u0435\u043b\u0430\u0442\u044c \u043f\u0430\u0441\u043f\u043e\u0440\u0442", None))
-        self.oldFormat_rb.setText(QCoreApplication.translate("BatchWindow", u"\u0421\u0442\u0430\u0440\u043e\u0433\u043e \u043e\u0431\u0440\u0430\u0437\u0446\u0430", None))
-        self.newFormat_rb.setText(QCoreApplication.translate("BatchWindow", u"\u041d\u043e\u0432\u043e\u0433\u043e \u043e\u0431\u0440\u0430\u0437\u0446\u0430", None))
         self.CreateEtiketkaButton.setText(QCoreApplication.translate("BatchWindow", u"\u0421\u0434\u0435\u043b\u0430\u0442\u044c \u043e\u0431\u0440\u0430\u0437\u0446\u044b \u044d\u0442\u0438\u043a\u0435\u0442\u043e\u043a", None))
         self.CreateTitulnButton.setText(QCoreApplication.translate("BatchWindow", u"\u0421\u0434\u0435\u043b\u0430\u0442\u044c \u0442\u0438\u0442\u0443\u043b\u044c\u043d\u044b\u0439 \u043b\u0438\u0441\u0442", None))
         self.CreateManyEtiketkaButton.setText(QCoreApplication.translate("BatchWindow", u"\u0421\u0434\u0435\u043b\u0430\u0442\u044c \u043f\u0430\u0440\u0442\u0438\u044e \u044d\u0442\u0438\u043a\u0435\u0442\u043e\u043a", None))

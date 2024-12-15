@@ -211,7 +211,7 @@
         <x>540</x>
         <y>310</y>
         <width>201</width>
-        <height>241</height>
+        <height>141</height>
        </rect>
       </property>
       <property name="title">
@@ -221,7 +221,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>60</y>
+         <y>20</y>
          <width>161</width>
          <height>23</height>
         </rect>
@@ -230,40 +230,11 @@
         <string>Сделать паспорт</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="oldFormat_rb">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>141</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Старого образца</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="newFormat_rb">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>141</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Нового образца</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
       <widget class="QPushButton" name="CreateEtiketkaButton">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>120</y>
+         <y>80</y>
          <width>161</width>
          <height>23</height>
         </rect>
@@ -276,7 +247,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>90</y>
+         <y>50</y>
          <width>161</width>
          <height>23</height>
         </rect>
@@ -289,7 +260,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>150</y>
+         <y>110</y>
          <width>161</width>
          <height>23</height>
         </rect>
