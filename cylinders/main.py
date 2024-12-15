@@ -1,4 +1,5 @@
 import ctypes
+import os
 import sys
 from pathlib import Path
 
@@ -34,8 +35,9 @@ def main():
 
 
 def show_window(current_config):
-    # fix app icon in task bar
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("bomzheg.batchs")
+    if os.name == 'nt':
+        # fix app icon in task bar
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("bomzheg.batchs")
 
     current_config.dumps_path.mkdir(parents=True, exist_ok=True)
 
