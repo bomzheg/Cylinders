@@ -16,9 +16,11 @@ def upgrade(load_volumes: str, con):
         assert headers[5] == "Колличество в связке"
         assert headers[6] == "Объём газа в одном баллоне, м3"
         with con.cursor() as cur:
+            ids = []
             for line in f:
                 vol = line.strip().split(";")
                 requested_id = int(vol[0])
+                ids.append(requested_id)
                 cur.execute("""
                     SELECT id FROM public."СоотношениеОбъёмов"
                     WHERE id = %s
@@ -29,4 +31,11 @@ def upgrade(load_volumes: str, con):
                     print(f"found id {requested_id}")
                 else:
                     print(f"not found id {requested_id}")
+            assert len(ids) == len(set(ids))
+            cur.execute("""
+                SELECT id from public."СоотношениеОбъёмов"
+                WHERE NOT (id = ANY(%(ids)s))
+            """, {"ids": ids})
+            founded = cur.fetchall()
+            print(f"found ids that should be deleted {founded}")
             # con.commit()
