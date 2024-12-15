@@ -1,7 +1,0 @@
-loguru
-pyside2
-psycopg2-binary
-relatorio
-python-dotenv
-selenium
-webdriver_manager
