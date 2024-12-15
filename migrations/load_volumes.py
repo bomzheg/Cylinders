@@ -16,4 +16,17 @@ def upgrade(load_volumes: str, con):
         assert headers[5] == "Колличество в связке"
         assert headers[6] == "Объём газа в одном баллоне, м3"
         with con.cursor() as cur:
-            pass
+            for line in f:
+                vol = line.strip().split(";")
+                requested_id = int(vol[0])
+                cur.execute("""
+                    SELECT id FROM public."СоотношениеОбъёмов"
+                    WHERE id = %s
+                """, (requested_id,))
+
+                fetched_id = cur.fetchone()
+                if fetched_id and fetched_id[0] == requested_id:
+                    print(f"found id {requested_id}")
+                else:
+                    print(f"not found id {requested_id}")
+            # con.commit()
