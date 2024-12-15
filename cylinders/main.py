@@ -10,7 +10,8 @@ from loguru import logger
 from cylinders.config import config, Config
 from cylinders.services.db_connection import connect_pg
 from cylinders.windows import BatchWindow
-from migrations import add_column_passport_no, load_volumes
+from migrations import add_column_passport_no, load_volumes, \
+    add_column_volumes_show
 
 
 def logger_setup(log_file: Path):
@@ -41,9 +42,11 @@ def show_window(current_config: Config):
 
     current_config.dumps_path.mkdir(parents=True, exist_ok=True)
 
-    add_column_passport_no.upgrade(connect_pg(current_config.db_config))
-    if current_config.load_volumes:
-        load_volumes.upgrade(current_config.load_volumes, connect_pg(current_config.db_config))
+    with connect_pg(current_config.db_config) as connection:
+        add_column_passport_no.upgrade(connection)
+        add_column_volumes_show.upgrade(connection)
+        if current_config.load_volumes:
+            load_volumes.upgrade(current_config.load_volumes, connection)
 
 
     app = QApplication([])

@@ -24,7 +24,8 @@ SQL_CYLINDERS = """
         "Объём газа, м3" numeric(7,2) NOT NULL,
         "Температура, °С" smallint NOT NULL,
         "Колличество в связке" smallint NOT NULL,
-        "Объём газа в одном баллоне, м3" numeric(5,2) NOT NULL
+        "Объём газа в одном баллоне, м3" numeric(5,2) NOT NULL,
+        show boolean DEFAULT true
     );
     """
 SQL_MANY = """
@@ -43,7 +44,18 @@ def get_sqlite_conn(dump_path: Path):
 
 def get_cylinders_from_pg(conn: connection):
     with conn.cursor() as cur:
-        cur.execute('SELECT * FROM "СоотношениеОбъёмов"')
+        cur.execute("""
+            SELECT 
+                "id",
+                "Объём баллона, л",
+                "Давление, ат",
+                "Объём газа, м3",
+                "Температура, °С",
+                "Колличество в связке",
+                "Объём газа в одном баллоне, м3",
+                show
+            FROM "СоотношениеОбъёмов"
+        """)
         data = []
         for cylinder_info in cur.fetchall():
             cylinder_info = list(cylinder_info)
@@ -60,18 +72,19 @@ def get_batchs_info_from_pg(conn: connection):
     batchs = []
     with conn.cursor() as batch_cur, conn.cursor() as cylinder_cur:
         batch_cur.execute(
-            f"SELECT id, Серия, Партия, Суфикс, Показать, passport_no FROM Партии;"
+            """SELECT id, Серия, Партия, Суфикс, Показать, passport_no FROM "Партии";"""
         )
         for id_, *row_batch in batch_cur:
             row_batch = list(row_batch)
-            cylinder_cur.execute('''
-                        SELECT  
-                            "ID баллона", 
-                            "Количество" 
-                        FROM "Баллоны в партиях"
-                        WHERE "ID партии" = %s;''',
-                                 (id_,)
-                                 )
+            cylinder_cur.execute(
+                '''
+                SELECT  
+                    "ID баллона", 
+                    "Количество" 
+                FROM "Баллоны в партиях"
+                WHERE "ID партии" = %s;''',
+                (id_,)
+            )
             cylinder_data = cylinder_cur.fetchall()
             batch = {'batch': row_batch, 'cylinders': cylinder_data}
             batchs.append(batch)
@@ -91,7 +104,17 @@ def insert_data_in_sqlite(dump_path, data):
         for cylinder_info in data['cylinders']:
             cur.execute(
                 """
-                    INSERT INTO "СоотношениеОбъёмов" VALUES (?, ?, ?, ?, ?, ?, ?);
+                    INSERT INTO "СоотношениеОбъёмов" (
+                        "id",
+                        "Объём баллона, л",
+                        "Давление, ат",
+                        "Объём газа, м3",
+                        "Температура, °С",
+                        "Колличество в связке",
+                        "Объём газа в одном баллоне, м3",
+                        show
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?);
                 """,
                 cylinder_info
             )

@@ -8,7 +8,7 @@ def upgrade(con: connection):
     with con.cursor() as cur:
         cur.execute(get_query_check_column("Партии", "passport_no"))
         if cur.fetchone()[0]:
-            logger.debug("column exists, no upgrade need")
+            logger.debug("column passport_no exists, no upgrade need")
             return
         cur.execute(
             """
