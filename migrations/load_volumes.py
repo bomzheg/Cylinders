@@ -17,6 +17,7 @@ def upgrade(load_volumes: str, con):
         assert headers[4] == "Температура, °С"
         assert headers[5] == "Колличество в связке"
         assert headers[6] == "Объём газа в одном баллоне, м3"
+        assert headers[7] == "show"
         with con.cursor() as cur:
             ids = []
             for line in f:
