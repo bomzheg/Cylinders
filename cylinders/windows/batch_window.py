@@ -9,7 +9,7 @@ from pathlib import Path
 from time import sleep
 
 from PySide2.QtCore import *
-from PySide2.QtGui import QCursor
+from PySide2.QtGui import QCursor, QColor, QBrush
 from PySide2.QtWidgets import *
 from loguru import logger
 
@@ -24,6 +24,18 @@ from cylinders.export_data import backup_pg
 
 CORRECT_PASSWORD_HASH = "ad1176b4f0b975322fb61f5b3fa686bc49a3127d7fb8fe71f7c3b4b9"
 
+
+class CustomDelegate(QStyledItemDelegate):
+    def initStyleOption(self, option: QStyleOptionViewItem, index: QModelIndex):
+        super(CustomDelegate, self).initStyleOption(option, index)
+        if index.column() == 3: # pressure
+            if int(index.data(Qt.DisplayRole)) == 150:  # 150 at
+                option.backgroundBrush = QBrush(QColor(208, 245, 115))
+            elif int(index.data(Qt.DisplayRole)) == 200:  # 200 at
+                option.backgroundBrush = QBrush(QColor(245, 199, 115))
+        if index.column() == 2: # pack formula
+            if "×" in str(index.data(Qt.DisplayRole)):  # mono-blocks
+                option.backgroundBrush = QBrush(QColor(250, 155, 160))
 
 class BatchWindow(QMainWindow):
     """
@@ -62,6 +74,8 @@ class BatchWindow(QMainWindow):
             raise ValueError("Incorrect DB_TYPE. must be 'postgres' or 'sqlite', "
                              f"got {self.db_config.db_type}")
         self.show_version_db()
+        self.cylinder_delegate = CustomDelegate(self)
+        self.ui.CylindersView.setItemDelegate(self.cylinder_delegate)
         self.ui.CylindersView.setModel(self.CylinderModel)
         self.qsortBatch = QSortFilterProxyModel(self)
         self.qsortBatch.setSourceModel(self.sqlBatchModel)
