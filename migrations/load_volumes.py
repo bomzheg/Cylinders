@@ -18,7 +18,6 @@ def upgrade(load_volumes: str, con):
         assert headers[5] == "Колличество в связке"
         assert headers[6] == "Объём газа в одном баллоне, м3"
         assert headers[7] == "show"
-        assert headers[8] == "order_"
         with con.cursor() as cur:
             ids = []
             for line in f:
@@ -42,8 +41,7 @@ def upgrade(load_volumes: str, con):
                             "Температура, °С" = %(temperature)s,
                             "Колличество в связке" = %(count)s,
                             "Объём газа в одном баллоне, м3" = %(volume_pack)s,
-                            show = %(show)s,
-                            order_ = %(order_)s
+                            show = %(show)s
                         WHERE id = %(id)s
                         """,
                         {
@@ -55,7 +53,6 @@ def upgrade(load_volumes: str, con):
                             "count": vol[5],
                             "volume_pack": vol[6],
                             "show": vol[7],
-                            "order_": vol[8],
                     })
                 else:
                     logger.info(f"not found id {requested_id}")
@@ -68,8 +65,7 @@ def upgrade(load_volumes: str, con):
                             "Температура, °С",
                             "Колличество в связке",
                             "Объём газа в одном баллоне, м3",
-                            show,
-                            "order_"
+                            show
                         )
                         VALUES (
                             %(id)s,
@@ -79,8 +75,7 @@ def upgrade(load_volumes: str, con):
                             %(temperature)s,
                             %(count)s,
                             %(volume_pack)s,
-                            %(show)s,
-                            %(order)s
+                            %(show)s
                         )
                         """,
                         {
@@ -92,7 +87,6 @@ def upgrade(load_volumes: str, con):
                             "count": vol[5],
                             "volume_pack": vol[6],
                             "show": vol[7],
-                            "order": vol[8],
                         })
             assert len(ids) == len(set(ids))
             cur.execute("""
