@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>930</width>
-    <height>743</height>
+    <height>722</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -32,7 +32,7 @@
       <x>0</x>
       <y>0</y>
       <width>931</width>
-      <height>691</height>
+      <height>671</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -48,7 +48,7 @@
         <x>0</x>
         <y>310</y>
         <width>701</width>
-        <height>341</height>
+        <height>321</height>
        </rect>
       </property>
       <property name="alternatingRowColors">
