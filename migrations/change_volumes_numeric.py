@@ -11,7 +11,7 @@ def upgrade(con: connection):
     logger.info("columns with numeric type changed")
 
 
-def update_volume(con):
+def update_volume(con: connection):
     with con.cursor() as cur:
         cur.execute(get_numeric_precision("СоотношениеОбъёмов", "Объём газа, м3"))
         precision, scale = cur.fetchone()
@@ -26,7 +26,7 @@ def update_volume(con):
         )
 
 
-def update_pack_volume(con):
+def update_pack_volume(con: connection):
     with con.cursor() as cur:
         cur.execute(get_numeric_precision("СоотношениеОбъёмов", "Объём газа в одном баллоне, м3"))
         precision, scale = cur.fetchone()
