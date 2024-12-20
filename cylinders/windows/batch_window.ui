@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>930</width>
-    <height>715</height>
+    <width>931</width>
+    <height>686</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -32,7 +32,7 @@
       <x>0</x>
       <y>0</y>
       <width>931</width>
-      <height>661</height>
+      <height>651</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -280,7 +280,7 @@
        </rect>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::AnyKeyPressed|QAbstractItemView::EditTrigger::CurrentChanged|QAbstractItemView::EditTrigger::DoubleClicked|QAbstractItemView::EditTrigger::EditKeyPressed</set>
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <property name="alternatingRowColors">
        <bool>true</bool>
@@ -301,9 +301,6 @@
       <property name="text">
        <string>Сведения о серии:</string>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_liquid">
@@ -318,9 +315,6 @@
         <width>113</width>
         <height>20</height>
        </rect>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
      <widget class="QLabel" name="label_batch">
@@ -347,9 +341,6 @@
       </property>
       <property name="text">
        <string>8</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
      <widget class="QLabel" name="label_count">
@@ -386,8 +377,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>930</width>
-     <height>30</height>
+     <width>931</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
