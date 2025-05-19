@@ -34,4 +34,4 @@ def get_count_cylinders(month: int, year: int):
 
 if __name__ == "__main__":
     for i in range(1, 12):
-        get_count_cylinders(i, 2020)
+        get_count_cylinders(i, 2024)
